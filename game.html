@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rewa Shaikh - Rock Paper Scissors</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: lavenderblush;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    h1 {
+      color: deeppink;
+    }
+    .scoreboard, .result, .buttons {
+      margin: 15px;
+    }
+    .emoji {
+      font-size: 60px;
+    }
+    button {
+      font-size: 18px;
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .rock { background-color: lightblue; }
+    .paper { background-color: lightgreen; }
+    .scissors { background-color: lightpink; }
+    .restart { background-color: orange; color: white; }
+  </style>
+</head>
+<body>
+  <h1>Rewa Shaikh - Rock Paper Scissors</h1>
+  <div class="scoreboard" id="score">You: 0 | Computer: 0 | Round: 0 / 5</div>
+  <div class="emoji">
+    You: <span id="user-choice">❔</span> | Computer: <span id="comp-choice">❔</span>
+  </div>
+  <div class="result" id="result"></div>
+  <div class="buttons">
+    <button class="rock" onclick="play('rock')">Rock 🪨</button>
+    <button class="paper" onclick="play('paper')">Paper 📄</button>
+    <button class="scissors" onclick="play('scissors')">Scissors ✂️</button>
+    <button class="restart" onclick="restartGame()">Restart 🔁</button>
+  </div>
+
+  <script>
+    const emoji = {
+      rock: '🪨',
+      paper: '📄',
+      scissors: '✂️'
+    };
+
+    let userScore = 0;
+    let compScore = 0;
+    let round = 0;
+    const maxRounds = 5;
+
+    function play(userChoice) {
+      if (round >= maxRounds) {
+        document.getElementById('result').textContent = "🎮 Game over! Click Restart to play again.";
+        return;
+      }
+
+      const choices = ['rock', 'paper', 'scissors'];
+      const compChoice = choices[Math.floor(Math.random() * 3)];
+
+      document.getElementById('user-choice').textContent = emoji[userChoice];
+      document.getElementById('comp-choice').textContent = emoji[compChoice];
+
+      let outcome = '';
+      if (userChoice === compChoice) {
+        outcome = "🤝 It's a tie!";
+      } else if ((userChoice === 'rock' && compChoice === 'scissors') ||
+                 (userChoice === 'scissors' && compChoice === 'paper') ||
+                 (userChoice === 'paper' && compChoice === 'rock')) {
+        outcome = "✅ You win this round!";
+        userScore++;
+      } else {
+        outcome = "❌ Computer wins this round!";
+        compScore++;
+      }
+
+      round++;
+      document.getElementById('result').textContent = `${outcome} (${userChoice} vs ${compChoice})`;
+      document.getElementById('score').textContent = `You: ${userScore} | Computer: ${compScore} | Round: ${round} / ${maxRounds}`;
+    }
+
+    function restartGame() {
+      userScore = 0;
+      compScore = 0;
+      round = 0;
+      document.getElementById('score').textContent = `You: 0 | Computer: 0 | Round: 0 / 5`;
+      document.getElementById('user-choice').textContent = '❔';
+      document.getElementById('comp-choice').textContent = '❔';
+      document.getElementById('result').textContent = '';
+    }
+  </script>
+</body>
+</html>
